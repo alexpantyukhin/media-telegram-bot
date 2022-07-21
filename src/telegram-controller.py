@@ -54,7 +54,7 @@ class AccessMiddleware(BaseMiddleware):
 storage = MemoryStorage()
 bot = Bot(token=settings.TELEGRAM_API_TOKEN)
 dp = Dispatcher(bot, storage=storage)
-allowed_access_ids = list(map(lambda x: int(x.trim()), settings.ALLOWED_ACCESS_IDS.split(',')))
+allowed_access_ids = list(map(lambda x: int(x.strip()), settings.ALLOWED_ACCESS_IDS.split(',')))
 dp.middleware.setup(AccessMiddleware(allowed_access_ids))
 
 class States(StatesGroup):
