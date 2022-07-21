@@ -26,7 +26,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 class AccessMiddleware(BaseMiddleware):
-    def __init__(self, allowed_access_ids: List[str]):
+    def __init__(self, allowed_access_ids: List[int]):
         self.allowed_access_ids_set = set(allowed_access_ids)
         super().__init__()
 
@@ -54,7 +54,8 @@ class AccessMiddleware(BaseMiddleware):
 storage = MemoryStorage()
 bot = Bot(token=settings.TELEGRAM_API_TOKEN)
 dp = Dispatcher(bot, storage=storage)
-dp.middleware.setup(AccessMiddleware(settings.ALLOWED_ACCESS_IDS.split(',')))
+allowed_access_ids = list(map(lambda x: int(x.trim()), settings.ALLOWED_ACCESS_IDS.split(',')))
+dp.middleware.setup(AccessMiddleware(allowed_access_ids))
 
 class States(StatesGroup):
     expect_folder = State()

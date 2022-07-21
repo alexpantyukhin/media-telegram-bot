@@ -1,11 +1,10 @@
 FROM python:3.7
 
-WORKDIR /src
-
-RUN apt update
-
+WORKDIR /app
 COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
-ENV PYTHONPATH="$PYTHONPATH:/src"
 
-COPY . /src
+RUN pip install -r requirements.txt
+
+COPY . /app
+
+CMD python -u telegram-controller.py
